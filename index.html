@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,78 +8,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4f46e5; /* Indigo-600 */
+            --primary-color: #6366f1; /* Indigo-500 for Dark Mode primary */
         }
         body {
             font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            background-color: #0f172a; /* Slate-900 (Dark Background) */
+            color: #f9fafb; /* Gray-50 (Light Text) */
+            transition: none; /* Hilangkan transisi warna tema */
         }
-        /* Light Theme Defaults */
-        .light-bg { background-color: #f3f4f6; }
-        .light-text { color: #1f2937; }
-        .light-card { background-color: white; }
-        .light-accent-button { background-color: var(--primary-color); color: white; }
-        .light-accent-button:hover { background-color: #4338ca; }
-
-        /* Dark Theme Overrides */
-        .dark body {
-            background-color: #0f172a; /* Slate-900 */
-            color: #f9fafb; /* Gray-50 */
-        }
-        .dark .light-card {
+        
+        /* Gaya Kartu dan Elemen di Tema Gelap */
+        .dark-card {
             background-color: #1e293b; /* Slate-800 */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
         }
-        .dark .light-text {
-            color: #f9fafb;
+        .dark-accent-button { 
+            background-color: var(--primary-color); 
+            color: white; 
         }
-        .dark .light-accent-button {
-            background-color: #6366f1; /* Indigo-500 */
+        .dark-accent-button:hover { 
+            background-color: #4f46e5; /* Indigo-600 hover */
         }
-        .dark .light-accent-button:hover {
-            background-color: #4f46e5;
+        .text-main-accent {
+            color: #6366f1; /* Indigo-500 for headlines */
         }
+        
+        /* Styling untuk opsi jawaban yang dipilih */
         .question-option input[type="radio"]:checked + label {
             background-color: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
         }
+        .question-option label {
+            border-color: #475569; /* Slate-600 border for options */
+            background-color: #334155; /* Slate-700 for options background */
+            color: #f9fafb;
+        }
+        .question-option label:hover {
+            background-color: #475569; /* Slate-600 hover for options */
+        }
     </style>
 </head>
-<body class="light-bg light-text transition-colors duration-500">
+<body class="transition-colors duration-500">
     <div class="container mx-auto p-4 md:p-8 max-w-4xl">
         
-        <!-- Header & Theme Toggle -->
+        <!-- Header -->
         <header class="flex justify-between items-start mb-8">
             <div>
-                <h1 class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">
+                <h1 class="text-3xl font-extrabold text-main-accent">
                     Skrining Dini Autisme
                 </h1>
                 <!-- Tulisan kecil di bawah judul utama -->
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <p class="text-xs text-gray-400 mt-1">
                     Created by Yono
                 </p>
             </div>
             
-            <button id="themeToggle" class="p-2 rounded-full light-card shadow-lg hover:shadow-xl transition duration-300">
-                <svg id="sunIcon" class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                </svg>
-                <svg id="moonIcon" class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 12 12 0 0021 12.5c0 6.627-5.373 12-12 12-.596 0-1.18-.046-1.758-.135A9.011 9.011 0 0020.354 15.354z"></path>
-                </svg>
-            </button>
+            <!-- Tombol Theme Toggle Dihapus -->
         </header>
 
         <!-- Disclaimer Section -->
-        <div id="disclaimer" class="p-4 mb-6 rounded-lg bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 text-yellow-800 dark:text-yellow-200">
+        <div id="disclaimer" class="p-4 mb-6 rounded-lg bg-yellow-900 border border-yellow-700 text-yellow-200">
             <p class="font-semibold mb-2">PENTING: Alat Informasi, Bukan Diagnosis</p>
             <p class="text-sm">Kuesioner ini didasarkan pada prinsip skrining umum dan hanya dimaksudkan sebagai alat informasi dan pendidikan. Hasil yang diperoleh bukanlah diagnosis klinis. Selalu konsultasikan dengan profesional kesehatan atau perkembangan anak untuk evaluasi yang akurat.</p>
         </div>
 
         <!-- Screening Form -->
-        <div id="screeningForm" class="light-card p-6 rounded-xl shadow-2xl light-text">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Jawablah Berdasarkan Perilaku Anak Anda</h2>
+        <div id="screeningForm" class="dark-card p-6 rounded-xl shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-gray-100">Jawablah Berdasarkan Perilaku Anak Anda</h2>
             
             <!-- Container for single question -->
             <div id="questionsContainer" class="min-h-[150px] flex items-center justify-center">
@@ -89,38 +85,38 @@
             <!-- Navigation Buttons -->
             <div class="flex justify-between items-center mt-8">
                 <button id="prevButton" onclick="goToPrevious()" 
-                        class="bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
+                        class="bg-gray-700 text-gray-200 font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
                     <!-- Ikon panah kiri (besar) -->
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
                 </button>
 
-                <div class="text-sm font-medium text-gray-500 dark:text-gray-400" id="questionCounter"></div>
+                <div class="text-sm font-medium text-gray-400" id="questionCounter"></div>
 
                 <!-- Next or Submit Button -->
                 <button id="nextButton" onclick="goToNext()" 
-                        class="light-accent-button font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                        class="dark-accent-button font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                     <!-- Ikon panah kanan (besar) -->
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>
                 </button>
                 
-                <button id="submitButton" onclick="calculateScore()" class="light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
+                <button id="submitButton" onclick="calculateScore()" class="dark-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
                     Lihat Hasil Skrining
                 </button>
             </div>
         </div>
 
         <!-- Result Display -->
-        <div id="resultContainer" class="hidden light-card p-8 rounded-xl shadow-2xl mt-8 light-text">
-            <h2 class="text-3xl font-bold mb-4 text-center text-gray-800 dark:text-gray-100">Hasil Skrining</h2>
+        <div id="resultContainer" class="hidden dark-card p-8 rounded-xl shadow-2xl mt-8">
+            <h2 class="text-3xl font-bold mb-4 text-center text-gray-100">Hasil Skrining</h2>
             <div id="scoreDisplay" class="text-center text-4xl font-extrabold mb-6"></div>
             <div id="riskLevel" class="text-center text-2xl font-semibold p-4 rounded-lg mb-6"></div>
             <p id="recommendation" class="text-center text-lg mb-6"></p>
             
-            <button onclick="resetQuiz()" class="w-full light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+            <button onclick="resetQuiz()" class="w-full dark-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
                 Ulangi Skrining
             </button>
         </div>
@@ -160,50 +156,7 @@
         // --- STATUS KUIS ---
         let currentQuestionIndex = 0;
 
-        // --- PENGELOLAAN TEMA (TETAP SAMA) ---
-        const themeToggle = document.getElementById('themeToggle');
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
-
-        function isDarkMode() {
-            return document.documentElement.classList.contains('dark');
-        }
-
-        function updateThemeIcons(isDark) {
-            sunIcon.style.display = isDark ? 'inline-block' : 'none';
-            moonIcon.style.display = isDark ? 'none' : 'inline-block';
-        }
-
-        function toggleTheme() {
-            if (isDarkMode()) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                updateThemeIcons(false);
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                updateThemeIcons(true);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const storedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (storedTheme === 'dark' || (storedTheme === null && prefersDark)) {
-                document.documentElement.classList.add('dark');
-                updateThemeIcons(true);
-            } else {
-                document.documentElement.classList.remove('dark');
-                updateThemeIcons(false);
-            }
-
-            themeToggle.addEventListener('click', toggleTheme);
-            // Panggil renderQuestions() di sini agar pertanyaan muncul segera setelah DOM siap.
-            renderQuestions(); 
-        });
-
-        // --- LOGIKA KUIS ---
+        // --- REFERENSI ELEMEN HTML ---
         const questionsContainer = document.getElementById('questionsContainer');
         const screeningForm = document.getElementById('screeningForm');
         const resultContainer = document.getElementById('resultContainer');
@@ -214,7 +167,14 @@
         const nextButton = document.getElementById('nextButton');
         const submitButton = document.getElementById('submitButton');
         const questionCounter = document.getElementById('questionCounter');
-        const whatsappButton = document.getElementById('whatsappButton'); // Ambil elemen tombol WA
+        const whatsappButton = document.getElementById('whatsappButton'); 
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inisialisasi: Panggil renderQuestions() agar pertanyaan muncul segera setelah DOM siap.
+            renderQuestions(); 
+        });
+
+        // --- LOGIKA KUIS ---
         
         // Fungsi untuk menyimpan jawaban saat ini
         function saveAnswer(qId, value) {
@@ -232,7 +192,7 @@
             questionsContainer.innerHTML = `
                 <div class="w-full">
                     <!-- Teks Pertanyaan -->
-                    <p class="text-xl font-semibold light-text mb-4">
+                    <p class="text-xl font-semibold text-gray-100 mb-4">
                         ${qId}. ${q.text}
                     </p>
                     
@@ -242,14 +202,14 @@
                         <input type="radio" id="q${qId}_yes" name="q${qId}" value="Yes" class="hidden" 
                             ${q.user_answer === 'Yes' ? 'checked' : ''} 
                             onchange="saveAnswer(${qId}, this.value)">
-                        <label for="q${qId}_yes" class="text-center py-2 px-4 rounded-lg cursor-pointer transition duration-200 border border-gray-300 dark:border-slate-600 dark:hover:bg-slate-700 hover:bg-gray-100 min-w-[70px]">
+                        <label for="q${qId}_yes" class="text-center py-2 px-4 rounded-lg cursor-pointer transition duration-200 border min-w-[70px]">
                             Ya
                         </label>
                         <!-- Pilihan TIDAK -->
                         <input type="radio" id="q${qId}_no" name="q${qId}" value="No" class="hidden" 
                             ${q.user_answer === 'No' ? 'checked' : ''} 
                             onchange="saveAnswer(${qId}, this.value)">
-                        <label for="q${qId}_no" class="text-center py-2 px-4 rounded-lg cursor-pointer transition duration-200 border border-gray-300 dark:border-slate-600 dark:hover:bg-slate-700 hover:bg-gray-100 min-w-[70px]">
+                        <label for="q${qId}_no" class="text-center py-2 px-4 rounded-lg cursor-pointer transition duration-200 border min-w-[70px]">
                             Tidak
                         </label>
                     </div>
@@ -264,8 +224,6 @@
 
             if (currentQuestionIndex === questions.length - 1) {
                 nextButton.classList.add('hidden');
-                // Tombol "Lihat Hasil Skrining" adalah tombol yang tidak berikon, jadi kita pertahankan
-                // kelas py-3 px-4 untuk menjaga proporsi teks
                 submitButton.classList.remove('hidden');
             } else {
                 nextButton.classList.remove('hidden');
@@ -322,15 +280,15 @@
 
             if (score >= 8) {
                 riskText = "Risiko Tinggi";
-                riskColor = "bg-red-500 text-white dark:bg-red-600";
+                riskColor = "bg-red-600 text-white";
                 recommendationText = `Anak Anda mencetak ${score} dari ${questions.length}. Hasil ini menunjukkan <strong>Risiko Tinggi</strong>. Sangat dianjurkan untuk segera mencari evaluasi komprehensif dari profesional perkembangan anak (Spesialis Anak atau Psikolog Klinis).`;
             } else if (score >= 4) {
                 riskText = "Risiko Sedang";
-                riskColor = "bg-yellow-400 text-yellow-900 dark:bg-yellow-600 dark:text-yellow-100";
+                riskColor = "bg-yellow-600 text-yellow-100";
                 recommendationText = `Anak Anda mencetak ${score} dari ${questions.length}. Hasil ini menunjukkan <strong>Risiko Sedang</strong>. Disarankan untuk menindaklanjuti dengan dokter anak atau melakukan observasi perilaku lebih lanjut.`;
             } else {
                 riskText = "Risiko Rendah";
-                riskColor = "bg-green-500 text-white dark:bg-green-600";
+                riskColor = "bg-green-600 text-white";
                 recommendationText = `Anak Anda mencetak ${score} dari ${questions.length}. Hasil ini menunjukkan <strong>Risiko Rendah</strong>. Meskipun demikian, terus pantau perkembangan anak Anda. Jika ada kekhawatiran, konsultasikan dengan profesional.`;
             }
 
@@ -373,10 +331,10 @@
                 modal.id = 'customModal';
                 modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden';
                 modal.innerHTML = `
-                    <div class="light-card rounded-lg shadow-xl w-full max-w-sm p-6 transform transition-all duration-300 scale-95 light-text">
-                        <h3 id="modalTitle" class="text-xl font-bold mb-3 text-red-600 dark:text-red-400"></h3>
-                        <p id="modalMessage" class="mb-5 text-gray-700 dark:text-gray-300"></p>
-                        <button id="modalClose" class="w-full light-accent-button py-2 rounded-lg font-semibold">Tutup</button>
+                    <div class="dark-card rounded-lg shadow-xl w-full max-w-sm p-6 transform transition-all duration-300 scale-95">
+                        <h3 id="modalTitle" class="text-xl font-bold mb-3 text-red-400"></h3>
+                        <p id="modalMessage" class="mb-5 text-gray-300"></p>
+                        <button id="modalClose" class="w-full dark-accent-button py-2 rounded-lg font-semibold">Tutup</button>
                     </div>
                 `;
                 document.body.appendChild(modal);
