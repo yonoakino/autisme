@@ -127,6 +127,15 @@
 
     </div>
 
+    <!-- Floating WA Button (Muncul setelah hasil) -->
+    <a id="whatsappButton" href="#" target="_blank" 
+       class="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-green-500 shadow-xl hover:bg-green-600 transition duration-300 hidden">
+        <!-- WhatsApp Icon SVG (simplified) -->
+        <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0006 2.0001C6.48062 2.0001 2.00062 6.4801 2.00062 12.0001C2.00062 14.1201 2.68062 16.1201 3.96062 17.7201L2.80062 21.2001L6.32062 20.0801C7.88062 21.0801 9.80062 21.6001 12.0006 21.6001H12.0406C17.5206 21.6001 22.0006 17.1201 22.0006 12.0001C22.0006 6.4801 17.5206 2.0001 12.0006 2.0001ZM16.4806 15.6801L15.6806 16.8001C15.5206 17.0001 15.2806 17.0401 15.0806 16.9201C14.7206 16.7201 14.3606 16.5601 13.9206 16.3201C13.0406 15.8001 12.1206 15.0801 11.2006 14.2001C10.2806 13.3201 9.56062 12.4001 9.04062 11.5201C8.80062 11.0801 8.64062 10.7201 8.44062 10.3601C8.36062 10.1601 8.40062 9.9201 8.60062 9.7601L9.72062 8.9601C9.92062 8.7601 10.0806 8.7601 10.2406 8.8801C10.4006 9.0001 10.6006 9.2401 10.7606 9.4001C10.9606 9.6001 11.1206 9.8001 11.1606 10.0001C11.2006 10.1601 11.2006 10.3601 11.0806 10.5601L10.9606 10.7601C10.8406 10.9601 10.8006 11.1201 10.8006 11.2801C10.8006 11.4401 10.9206 11.6401 11.0406 11.7601C11.1606 11.8801 11.3606 12.0001 11.4806 12.1201C12.4406 13.0001 13.3606 13.7201 14.1606 14.2801C14.3606 14.4401 14.5606 14.6001 14.7606 14.8001C14.9206 14.9601 15.0806 15.0401 15.2806 15.0401C15.4806 15.0401 15.6806 15.0001 15.8406 14.8801L16.0806 14.7201C16.3206 14.5601 16.5206 14.4801 16.7206 14.5601C16.9206 14.6401 17.0806 14.8001 17.1606 15.0001L17.2406 15.2001C17.3206 15.4001 17.2806 15.6401 17.1606 15.8401L16.4806 15.6801Z"/>
+        </svg>
+    </a>
+
     <script>
         // --- DATA PERTANYAAN ---
         // score: 1 = jawaban menunjukkan risiko (positif skrining)
@@ -205,6 +214,7 @@
         const nextButton = document.getElementById('nextButton');
         const submitButton = document.getElementById('submitButton');
         const questionCounter = document.getElementById('questionCounter');
+        const whatsappButton = document.getElementById('whatsappButton'); // Ambil elemen tombol WA
         
         // Fungsi untuk menyimpan jawaban saat ini
         function saveAnswer(qId, value) {
@@ -261,6 +271,9 @@
                 nextButton.classList.remove('hidden');
                 submitButton.classList.add('hidden');
             }
+            
+            // Pastikan tombol WA tersembunyi selama kuis berlangsung
+            whatsappButton.classList.add('hidden');
         }
 
         // Fungsi untuk pindah ke pertanyaan berikutnya
@@ -330,6 +343,15 @@
             screeningForm.classList.add('hidden');
             resultContainer.classList.remove('hidden');
 
+            // --- Logika Tombol WA ---
+            const finalScore = score;
+            const waMessage = `Halo, saya ingin berkonsultasi mengenai hasil skrining dini autisme anak saya. Skor risiko yang didapat adalah ${finalScore} dari ${questions.length}, dengan tingkat risiko ${riskText}. Mohon petunjuk selanjutnya.`;
+            const encodedMessage = encodeURIComponent(waMessage);
+            const phoneNumber = '6285119888882'; // Nomor WA dengan kode negara Indonesia (62)
+
+            whatsappButton.href = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            whatsappButton.classList.remove('hidden'); // Tampilkan tombol WA setelah hasil
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -340,6 +362,7 @@
             renderQuestions();
             resultContainer.classList.add('hidden');
             screeningForm.classList.remove('hidden');
+            whatsappButton.classList.add('hidden'); // Sembunyikan tombol WA saat kuis diulang
         }
 
         // --- MODAL PESAN KUSTOM (Pengganti alert) ---
