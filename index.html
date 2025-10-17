@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skrining Autisme Anak - Dini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5; /* Indigo-600 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* Light Theme Defaults */
+        .light-bg { background-color: #f3f4f6; }
+        .light-text { color: #1f2937; }
+        .light-card { background-color: white; }
+        .light-accent-button { background-color: var(--primary-color); color: white; }
+        .light-accent-button:hover { background-color: #4338ca; }
+
+        /* Dark Theme Overrides */
+        .dark body {
+            background-color: #0f172a; /* Slate-900 */
+            color: #f9fafb; /* Gray-50 */
+        }
+        .dark .light-card {
+            background-color: #1e293b; /* Slate-800 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        }
+        .dark .light-text {
+            color: #f9fafb;
+        }
+        .dark .light-accent-button {
+            background-color: #6366f1; /* Indigo-500 */
+        }
+        .dark .light-accent-button:hover {
+            background-color: #4f46e5;
+        }
+        .question-option input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .nav-button {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body class="light-bg light-text transition-colors duration-500">
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        
+        <!-- Header & Theme Toggle -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">
+                Skrining Dini Autisme
+            </h1>
+            <button id="themeToggle" class="p-2 rounded-full light-card shadow-lg hover:shadow-xl transition duration-300">
+                <svg id="sunIcon" class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <svg id="moonIcon" class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 12 12 0 0021 12.5c0 6.627-5.373 12-12 12-.596 0-1.18-.046-1.758-.135A9.011 9.011 0 0020.354 15.354z"></path>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Disclaimer Section -->
+        <div id="disclaimer" class="p-4 mb-6 rounded-lg bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 text-yellow-800 dark:text-yellow-200">
+            <p class="font-semibold mb-2">PENTING: Alat Informasi, Bukan Diagnosis</p>
+            <p class="text-sm">Kuesioner ini didasarkan pada prinsip skrining umum dan hanya dimaksudkan sebagai alat informasi dan pendidikan. Hasil yang diperoleh bukanlah diagnosis klinis. Selalu konsultasikan dengan profesional kesehatan atau perkembangan anak untuk evaluasi yang akurat.</p>
+        </div>
+
+        <!-- Screening Form -->
+        <div id="screeningForm" class="light-card p-6 rounded-xl shadow-2xl light-text">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Jawablah Berdasarkan Perilaku Anak Anda</h2>
+            
+            <!-- Container for single question -->
+            <div id="questionsContainer" class="min-h-[150px] flex items-center justify-center">
+                <!-- Single question will be injected here -->
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center mt-8">
+                <button id="prevButton" onclick="goToPrevious()" class="nav-button bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
+                    &larr; Sebelumnya
+                </button>
+
+                <div class="text-sm font-medium text-gray-500 dark:text-gray-400" id="questionCounter"></div>
+
+                <!-- Next or Submit Button -->
+                <button id="nextButton" onclick="goToNext()" class="nav-button light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    Selanjutnya &rarr;
+                </button>
+                
+                <button id="submitButton" onclick="calculateScore()" class="nav-button light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
+                    Lihat Hasil Skrining
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Display -->
+        <div id="resultContainer" class="hidden light-card p-8 rounded-xl shadow-2xl mt-8 light-text">
+            <h2 class="text-3xl font-bold mb-4 text-center text-gray-800 dark:text-gray-100">Hasil Skrining</h2>
+            <div id="scoreDisplay" class="text-center text-4xl font-extrabold mb-6"></div>
+            <div id="riskLevel" class="text-center text-2xl font-semibold p-4 rounded-lg mb-6"></div>
+            <p id="recommendation" class="text-center text-lg mb-6"></p>
+            
+            <button onclick="resetQuiz()" class="w-full light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                Ulangi Skrining
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA PERTANYAAN ---
+        // score: 1 = jawaban menunjukkan risiko (positif skrining)
+        const questions = [
+            { id: 1, text: "Apakah anak Anda tertarik pada anak-anak lain?", risk_answer: "No", user_answer: null },
+            { id: 2, text: "Apakah anak Anda menggunakan jari untuk menunjuk (meminta) sesuatu?", risk_answer: "No", user_answer: null },
+            { id: 3, text: "Apakah anak Anda meniru Anda (misalnya, melambaikan tangan, menepuk tangan)?", risk_answer: "No", user_answer: null },
+            { id: 4, text: "Jika Anda menunjuk suatu objek, apakah anak Anda melihat ke objek tersebut?", risk_answer: "No", user_answer: null },
+            { id: 5, text: "Apakah anak Anda bermain pura-pura (misalnya, memberi makan boneka)?", risk_answer: "No", user_answer: null },
+            { id: 6, text: "Apakah anak Anda memandang mata Anda selama lebih dari satu atau dua detik?", risk_answer: "No", user_answer: null },
+            { id: 7, text: "Apakah anak Anda melakukan gerakan tangan aneh di dekat wajahnya?", risk_answer: "Yes", user_answer: null },
+            { id: 8, text: "Apakah anak Anda menggunakan kata-kata tunggal (selain mama/papa)?", risk_answer: "No", user_answer: null },
+            { id: 9, text: "Apakah anak Anda sangat peka terhadap suara bising yang biasa?", risk_answer: "Yes", user_answer: null },
+            { id: 10, text: "Apakah anak Anda sering menyusun mainan dalam barisan?", risk_answer: "Yes", user_answer: null },
+            { id: 11, text: "Apakah anak Anda pernah kehilangan kemampuan bicara atau sosial?", risk_answer: "Yes", user_answer: null },
+            { id: 12, text: "Apakah anak Anda menunjukkan minat tidak biasa pada bagian mainan tertentu (misalnya, roda mobil)?", risk_answer: "Yes", user_answer: null },
+            { id: 13, text: "Apakah anak Anda sering berputar-putar tanpa alasan yang jelas?", risk_answer: "Yes", user_answer: null },
+            { id: 14, text: "Apakah anak Anda membawa benda kepada Anda untuk menunjukkan sesuatu?", risk_answer: "No", user_answer: null },
+            { id: 15, text: "Apakah anak Anda merespons ketika Anda memanggil namanya?", risk_answer: "No", user_answer: null },
+        ];
+        
+        // --- STATUS KUIS ---
+        let currentQuestionIndex = 0;
+
+        // --- PENGELOLAAN TEMA (TETAP SAMA) ---
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+
+        function isDarkMode() {
+            return document.documentElement.classList.contains('dark');
+        }
+
+        function updateThemeIcons(isDark) {
+            sunIcon.style.display = isDark ? 'inline-block' : 'none';
+            moonIcon.style.display = isDark ? 'none' : 'inline-block';
+        }
+
+        function toggleTheme() {
+            if (isDarkMode()) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeIcons(false);
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeIcons(true);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (storedTheme === 'dark' || (storedTheme === null && prefersDark)) {
+                document.documentElement.classList.add('dark');
+                updateThemeIcons(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeIcons(false);
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+        });
+
+        // --- LOGIKA KUIS ---
+        const questionsContainer = document.getElementById('questionsContainer');
+        const screeningForm = document.getElementById('screeningForm');
+        const resultContainer = document.getElementById('resultContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const riskLevel = document.getElementById('riskLevel');
+        const recommendation = document.getElementById('recommendation');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const submitButton = document.getElementById('submitButton');
+        const questionCounter = document.getElementById('questionCounter');
+        
+        // Fungsi untuk menyimpan jawaban saat ini
+        function saveAnswer(qId, value) {
+            const index = questions.findIndex(q => q.id == qId);
+            if (index !== -1) {
+                questions[index].user_answer = value;
+            }
+        }
+
+        // Fungsi untuk menampilkan pertanyaan saat ini
+        function renderQuestions() {
+            const q = questions[currentQuestionIndex];
+            const qId = q.id;
+
+            questionsContainer.innerHTML = `
+                <div class="w-full">
+                    <!-- Teks Pertanyaan -->
+                    <p class="text-xl font-semibold light-text mb-4">
+                        ${qId}. ${q.text}
+                    </p>
+                    
+                    <!-- Opsi Jawaban -->
+                    <div class="flex items-center justify-end space-x-3 question-option flex-shrink-0">
+                        <!-- Pilihan YA -->
+                        <input type="radio" id="q${qId}_yes" name="q${qId}" value="Yes" class="hidden" 
+                            ${q.user_answer === 'Yes' ? 'checked' : ''} 
+                            onchange="saveAnswer(${qId}, this.value)">
+                        <label for="q${qId}_yes" class="text-center py-2 px-4 rounded-lg cursor-pointer transition duration-200 border border-gray-300 dark:border-slate-600 dark:hover:bg-slate-700 hover:bg-gray-100 min-w-[70px]">
+                            Ya
+                        </label>
+                        <!-- Pilihan TIDAK -->
+                        <input type="radio" id="q${qId}_no" name="q${qId}" value="No" class="hidden" 
+                            ${q.user_answer === 'No' ? 'checked' : ''} 
+                            onchange="saveAnswer(${qId}, this.value)">
+                        <label for="q${qId}_no" class="text-center py-2 px-4 rounded-lg cursor-pointer transition duration-200 border border-gray-300 dark:border-slate-600 dark:hover:bg-slate-700 hover:bg-gray-100 min-w-[70px]">
+                            Tidak
+                        </label>
+                    </div>
+                </div>
+            `;
+            
+            // Perbarui tombol navigasi dan counter
+            prevButton.classList.toggle('hidden', currentQuestionIndex === 0);
+            questionCounter.textContent = `Pertanyaan ${currentQuestionIndex + 1} dari ${questions.length}`;
+
+            if (currentQuestionIndex === questions.length - 1) {
+                nextButton.classList.add('hidden');
+                submitButton.classList.remove('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+                submitButton.classList.add('hidden');
+            }
+        }
+
+        // Fungsi untuk pindah ke pertanyaan berikutnya
+        function goToNext() {
+            const q = questions[currentQuestionIndex];
+            if (q.user_answer === null) {
+                showMessageBox("Lengkapi Jawaban", "Anda harus memilih Ya atau Tidak sebelum melanjutkan.");
+                return;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                renderQuestions();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Fungsi untuk pindah ke pertanyaan sebelumnya
+        function goToPrevious() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestions();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Fungsi untuk menghitung skor dan menampilkan hasil
+        function calculateScore() {
+            const q = questions[currentQuestionIndex];
+            if (q.user_answer === null) {
+                showMessageBox("Lengkapi Jawaban", "Anda harus memilih Ya atau Tidak sebelum melihat hasil.");
+                return;
+            }
+            
+            let score = 0;
+            questions.forEach(q => {
+                if (q.user_answer === q.risk_answer) {
+                    score++;
+                }
+            });
+
+            // Tentukan Level Risiko
+            let riskText = "";
+            let riskColor = "";
+            let recommendationText = "";
+
+            if (score >= 8) {
+                riskText = "Risiko Tinggi";
+                riskColor = "bg-red-500 text-white dark:bg-red-600";
+                recommendationText = `Anak Anda mencetak ${score} dari ${questions.length}. Hasil ini menunjukkan <strong>Risiko Tinggi</strong>. Sangat dianjurkan untuk segera mencari evaluasi komprehensif dari profesional perkembangan anak (Spesialis Anak atau Psikolog Klinis).`;
+            } else if (score >= 4) {
+                riskText = "Risiko Sedang";
+                riskColor = "bg-yellow-400 text-yellow-900 dark:bg-yellow-600 dark:text-yellow-100";
+                recommendationText = `Anak Anda mencetak ${score} dari ${questions.length}. Hasil ini menunjukkan <strong>Risiko Sedang</strong>. Disarankan untuk menindaklanjuti dengan dokter anak atau melakukan observasi perilaku lebih lanjut.`;
+            } else {
+                riskText = "Risiko Rendah";
+                riskColor = "bg-green-500 text-white dark:bg-green-600";
+                recommendationText = `Anak Anda mencetak ${score} dari ${questions.length}. Hasil ini menunjukkan <strong>Risiko Rendah</strong>. Meskipun demikian, terus pantau perkembangan anak Anda. Jika ada kekhawatiran, konsultasikan dengan profesional.`;
+            }
+
+            // Tampilkan Hasil
+            scoreDisplay.textContent = `${score} / ${questions.length}`;
+            riskLevel.className = `text-center text-2xl font-semibold p-4 rounded-lg mb-6 ${riskColor}`;
+            riskLevel.textContent = riskText;
+            recommendation.innerHTML = recommendationText;
+
+            screeningForm.classList.add('hidden');
+            resultContainer.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Fungsi untuk mengulang kuis
+        function resetQuiz() {
+            questions.forEach(q => q.user_answer = null); // Reset all answers
+            currentQuestionIndex = 0;
+            renderQuestions();
+            resultContainer.classList.add('hidden');
+            screeningForm.classList.remove('hidden');
+        }
+
+        // --- MODAL PESAN KUSTOM (Pengganti alert) ---
+        function showMessageBox(title, message) {
+            let modal = document.getElementById('customModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'customModal';
+                modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden';
+                modal.innerHTML = `
+                    <div class="light-card rounded-lg shadow-xl w-full max-w-sm p-6 transform transition-all duration-300 scale-95 light-text">
+                        <h3 id="modalTitle" class="text-xl font-bold mb-3 text-red-600 dark:text-red-400"></h3>
+                        <p id="modalMessage" class="mb-5 text-gray-700 dark:text-gray-300"></p>
+                        <button id="modalClose" class="w-full light-accent-button py-2 rounded-lg font-semibold">Tutup</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                document.getElementById('modalClose').onclick = () => modal.classList.add('hidden');
+            }
+
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            modal.classList.remove('hidden');
+        }
+
+        // Inisialisasi
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>
