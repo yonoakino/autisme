@@ -44,10 +44,6 @@
             color: white;
             border-color: var(--primary-color);
         }
-        /* Menghapus min-width agar tombol lebih responsif di layar kecil */
-        /* .nav-button {
-            min-width: 150px;
-        } */
     </style>
 </head>
 <body class="light-bg light-text transition-colors duration-500">
@@ -85,15 +81,23 @@
             
             <!-- Navigation Buttons -->
             <div class="flex justify-between items-center mt-8">
-                <button id="prevButton" onclick="goToPrevious()" class="bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
-                    &larr; Sebelumnya
+                <button id="prevButton" onclick="goToPrevious()" 
+                        class="bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
+                    <!-- Ikon panah kiri (besar) -->
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
                 </button>
 
                 <div class="text-sm font-medium text-gray-500 dark:text-gray-400" id="questionCounter"></div>
 
                 <!-- Next or Submit Button -->
-                <button id="nextButton" onclick="goToNext()" class="light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-                    Selanjutnya &rarr;
+                <button id="nextButton" onclick="goToNext()" 
+                        class="light-accent-button font-bold p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                    <!-- Ikon panah kanan (besar) -->
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
                 </button>
                 
                 <button id="submitButton" onclick="calculateScore()" class="light-accent-button font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 hidden">
@@ -236,11 +240,13 @@
             // Perbarui tombol navigasi dan counter
             prevButton.classList.toggle('hidden', currentQuestionIndex === 0);
             
-            // Mengubah format teks penghitung pertanyaan dari "Pertanyaan X dari Y" menjadi "X dari Y"
+            // Format teks penghitung pertanyaan: "X dari Y"
             questionCounter.textContent = `${currentQuestionIndex + 1} dari ${questions.length}`;
 
             if (currentQuestionIndex === questions.length - 1) {
                 nextButton.classList.add('hidden');
+                // Tombol "Lihat Hasil Skrining" adalah tombol yang tidak berikon, jadi kita pertahankan
+                // kelas py-3 px-4 untuk menjaga proporsi teks
                 submitButton.classList.remove('hidden');
             } else {
                 nextButton.classList.remove('hidden');
