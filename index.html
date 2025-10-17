@@ -190,6 +190,8 @@
             }
 
             themeToggle.addEventListener('click', toggleTheme);
+            // Panggil renderQuestions() di sini agar pertanyaan muncul segera setelah DOM siap.
+            renderQuestions(); 
         });
 
         // --- LOGIKA KUIS ---
@@ -362,8 +364,6 @@
             document.getElementById('modalMessage').textContent = message;
             modal.classList.remove('hidden');
         }
-
-        // Inisialisasi
-        window.onload = function() {
-            renderQuestions();
-        };
+    </script>
+</body>
+</html>
